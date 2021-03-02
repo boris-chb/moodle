@@ -3,6 +3,7 @@ from .models import Module, Topic
 
 class TopicInline(admin.StackedInline):
     model = Topic
+    extra = 1
 
 @admin.register(Module)
 class ModuleAdmin(admin.ModelAdmin):

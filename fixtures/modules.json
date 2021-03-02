@@ -1,0 +1,62 @@
+[
+{
+  "model": "modules.module",
+  "pk": 1,
+  "fields": {
+    "instructor": 1,
+    "title": "Software Development",
+    "slug": "software-development",
+    "level": "U",
+    "overview": "This module introduces programming concepts and structures using a problem-based learning approach. The fundamentals of a programming language are covered to facilitate the student analysing a problem and then designing and implementing a suitable solution. The development life-cycle from analysis, design, implementation, debugging and version control are covered to ensure the student understands and is able to demonstrate the process.",
+    "created": "2021-03-01T21:38:19.451Z"
+  }
+},
+{
+  "model": "modules.module",
+  "pk": 1,
+  "fields": {
+    "instructor": 1,
+    "title": "Software Development",
+    "slug": "software-development",
+    "level": "U",
+    "overview": "This module introduces programming concepts and structures using a problem-based learning approach. The fundamentals of a programming language are covered to facilitate the student analysing a problem and then designing and implementing a suitable solution. The development life-cycle from analysis, design, implementation, debugging and version control are covered to ensure the student understands and is able to demonstrate the process.",
+    "created": "2021-03-01T21:38:19.451Z"
+  }
+},
+{
+  "model": "modules.module",
+  "pk": 1,
+  "fields": {
+    "instructor": 1,
+    "title": "Software Development",
+    "slug": "software-development",
+    "level": "U",
+    "overview": "This module introduces programming concepts and structures using a problem-based learning approach. The fundamentals of a programming language are covered to facilitate the student analysing a problem and then designing and implementing a suitable solution. The development life-cycle from analysis, design, implementation, debugging and version control are covered to ensure the student understands and is able to demonstrate the process.",
+    "created": "2021-03-01T21:38:19.451Z"
+  }
+},
+{
+  "model": "modules.module",
+  "pk": 1,
+  "fields": {
+    "instructor": 1,
+    "title": "Software Development",
+    "slug": "software-development",
+    "level": "U",
+    "overview": "This module introduces programming concepts and structures using a problem-based learning approach. The fundamentals of a programming language are covered to facilitate the student analysing a problem and then designing and implementing a suitable solution. The development life-cycle from analysis, design, implementation, debugging and version control are covered to ensure the student understands and is able to demonstrate the process.",
+    "created": "2021-03-01T21:38:19.451Z"
+  }
+},
+{
+  "model": "modules.module",
+  "pk": 1,
+  "fields": {
+    "instructor": 1,
+    "title": "Software Development",
+    "slug": "software-development",
+    "level": "U",
+    "overview": "This module introduces programming concepts and structures using a problem-based learning approach. The fundamentals of a programming language are covered to facilitate the student analysing a problem and then designing and implementing a suitable solution. The development life-cycle from analysis, design, implementation, debugging and version control are covered to ensure the student understands and is able to demonstrate the process.",
+    "created": "2021-03-01T21:38:19.451Z"
+  }
+}
+]

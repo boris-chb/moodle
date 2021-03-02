@@ -3,7 +3,7 @@ from django_countries.fields import CountryField
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True)
+    email = models.EmailField(max_length=255, unique=True, db_index=True, primary_key=True)
     country = CountryField(blank_label='Where are you from?')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False) # Instructor
@@ -20,7 +20,7 @@ class Profile(models.Model):
     user = models.OneToOneField(CustomUser,
                                 on_delete=models.CASCADE)
     date_of_birth = models.DateField(blank=True, null=True)
-    photo = models.ImageField(upload_to='users/%Y/%M/%d', blank=True)
+    photo = models.ImageField(upload_to='profile_pic/%Y/%M/%d', blank=True)
     bio = models.CharField(max_length=200, default='') # A short description
     
     def __str__(self):
