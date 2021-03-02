@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Dev
     'accounts',
     'modules',
+    'taggit',
 ]
 
 # Custom User
