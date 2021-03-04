@@ -3,7 +3,7 @@ from django_countries.fields import CountryField
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(max_length=255, unique=True, db_index=True, primary_key=True)
+    email = models.EmailField(max_length=255, unique=True)
     country = CountryField(blank_label='Where are you from?')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False) # Instructor

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block comment %}
+  This form is used for both Creating and Updating views.
+  Initially, we check whether an object variable is being passed, the view is Update.
+  If no object is being passed, then a module needs to be Created.
+{% endblock %}
+
+{% block title %}
+  {% if object %}
+    Edit module "{{ object.title }}"
+  {% else %}
+    Create a new module
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h1>
+    {% if object %}
+      Edit module "{{ object.title }}"
+    {% else %}
+      Create a new module
+    {% endif %}
+  </h1>
+  <div class="module">
+    <h2>module info</h2>
+    <form method="post">
+      {{ form.as_p }}
+      {% csrf_token %}
+      <p><input type="submit" value="Save module"></p>
+    </form>
+  </div>
+{% endblock %}

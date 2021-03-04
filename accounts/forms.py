@@ -25,6 +25,7 @@ class CustomEmailDomainUserCreationForm(CustomUserCreationForm):
         user.email = self.cleaned_data["email"]
         if commit:
             user.save()
+            Profile.objects.create(user=user)
         return user
 
 class CustomUserChangeForm(UserChangeForm):

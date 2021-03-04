@@ -16,7 +16,7 @@ class InstructorMixin:
     """
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(owner=self.request.user)
+        return qs.filter(instructor=self.request.user)
 
 
 class InstructorEditMixin:
@@ -35,22 +35,26 @@ class InstructorModuleMixin(InstructorMixin, LoginRequiredMixin, UserPassesTestM
     model = Module
     fields = ['title', 'slug', 'level', 'overview']
     # Redirect URL:
-    success_url = reverse_lazy('manage_course_list')
+    success_url = reverse_lazy('module_list')
+
+    def test_func(self):
+      return self.request.user.is_staff
+
 
 
 class InstructorModuleEditMixin(InstructorModuleMixin, InstructorEditMixin):
-    # template_name = 'courses/manage/form.html'
+    template_name = 'manage/module/form.html'
     pass
 
 
 # CREATE
 class ModuleCreateView(InstructorModuleMixin, CreateView):
-    pass
+    template_name = 'manage/module/form.html'
 
 
 # READ
 class ModuleListView(InstructorModuleMixin, ListView):
-    # template_name = 'courses/manage/list.html'
+    template_name = 'manage/module/list.html'
     pass
 
 
@@ -61,7 +65,7 @@ class ModuleUpdateView(InstructorModuleMixin, UpdateView):
 
 # DELETE
 class ModuleDeleteView(InstructorModuleMixin, DeleteView):
-    # template_name = 'courses/manage/delete.html'
+    # template_name = 'modules/manage/delete.html'
     pass
 
 

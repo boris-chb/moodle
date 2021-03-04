@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}My modules{% endblock %}
+
+{% block content %}
+  <h1>My modules</h1>
+
+  <div class="module">
+    {% for module in object_list %}
+      <div class="module-info">
+        <h3>{{ module.title }}</h3>
+        <p>
+          <a href="{% url "module_edit" module.id %}">Edit</a>
+          <a href="{% url "module_delete" module.id %}">Delete</a>
+          {% if module.topic.count > 0 %}
+            <a href="{% url "module_list" module.id %}">
+            Manage contents</a>
+          {% endif %}
+        </p>
+      </div>
+    {% empty %}
+      <p>You haven't created any modules yet.</p>
+    {% endfor %}
+    <p>
+      <a href="{% url "module_create" %}" type="button" class="btn btn-primary">Create new module</a>
+    </p>
+  </div>
+{% endblock %}
