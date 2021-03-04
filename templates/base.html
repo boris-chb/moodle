@@ -13,12 +13,13 @@
       <ul class="navbar-nav">
         <!-- Dropdown -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+          <a class="nav-link dropdown-toggle" href="{% url "module_list" %}" id="navbardrop" data-toggle="dropdown">
             My Modules
           </a>
           <div class="dropdown-menu">
-            {% for module in links %}
-            <a class="dropdown-item" href="{{module.get_absolute_url}}">{{module.name}}</a>
+            <a class="dropdown-item" href="{% url "module_list" %}">All</a>
+            {% for module in object_list %}
+            <a class="dropdown-item" href="{{module.get_absolute_url}}">{{module.title}}</a>
             {% endfor %}
           </div>
         </li>

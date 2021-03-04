@@ -9,7 +9,9 @@
     {% for module in object_list %}
       <div class="module-info">
         <h3>{{ module.title }}</h3>
+        Posted {{ module.created }} by {{ module.instructor }}
         <p>
+          {{ module.overview|truncatewords:30|linebreaks }}
           <a href="{% url "module_edit" module.id %}">Edit</a>
           <a href="{% url "module_delete" module.id %}">Delete</a>
           {% if module.topic.count > 0 %}

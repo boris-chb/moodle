@@ -42,8 +42,15 @@ INSTALLED_APPS = [
     # Dev
     'accounts',
     'modules',
+    # 'library',
+
+    # 3rd party apps
     'taggit',
+    'crispy_forms'
 ]
+
+# Forms
+CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 # Custom User
 AUTH_USER_MODEL = "accounts.CustomUser"
