@@ -65,14 +65,14 @@ class Resource(models.Model):
         representing several types.
         Resource types are files, text, video and images.
     """
+    object_id = models.PositiveIntegerField()  # PK
     topic = models.ForeignKey(Topic,
                               related_name='resources',
                               on_delete=models.CASCADE)
-    resource_type = models.ForeignKey(
-        ContentType,
-        on_delete=models.CASCADE,
-        limit_choices_to={'model__in': ('text', 'video', 'image', 'file')})
-    object_id = models.PositiveIntegerField()  # PK
+    resource_type = models.ForeignKey(ContentType,
+                                      on_delete=models.CASCADE,
+                                      limit_choices_to={'model__in': ('text', 'video', 'image', 'file')})
+
     # A field related to both previous fields combined
     item = GenericForeignKey('resource_type', 'object_id')
 
