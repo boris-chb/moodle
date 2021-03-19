@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Module, Topic
+from .models import Module, Topic, Resource
 
 class TopicInline(admin.StackedInline):
     model = Topic
@@ -12,3 +12,6 @@ class ModuleAdmin(admin.ModelAdmin):
     search_fields = ['title', 'overview', 'instructor']
     prepopulated_fields = {'slug': ('title',)}
     inlines = [TopicInline]
+
+admin.site.register(Topic)
+admin.site.register(Resource)

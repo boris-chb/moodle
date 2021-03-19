@@ -46,7 +46,8 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'taggit',
-    'crispy_forms'
+    'crispy_forms',
+    # 'django_extensions',
 ]
 
 # Forms

@@ -1,9 +1,13 @@
 from django.urls import reverse_lazy
 # from django.shortcuts import render
+from django.forms.models import modelform_factory
+from django.apps import apps
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.base import View, TemplateResponseMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Module
+from django.shortcuts import redirect, get_object_or_404
+from .models import Module, Topic, Resource
 
 # A Django view is just a Python function that
 # receives a web request and returns a web response. 
@@ -54,11 +58,15 @@ class InstructorModuleEditMixin(InstructorModuleMixin, InstructorEditMixin):
 ########################
 ## CLASS BASED VIEWS: ##
 ########################
+###                   ##
+###     MODULES       ##
+###                   ##
+########################
 
 # READ                 ↓ VIEW mixin ↓
 class ModuleListView(InstructorModuleMixin, ListView):
     template_name = 'manage/module/list.html'
-    pass
+    context_object_name = 'modules'
 
 # CREATE               ↓ EDIT mixin ↓
 class ModuleCreateView(InstructorModuleEditMixin, CreateView):
@@ -73,6 +81,97 @@ class ModuleUpdateView(InstructorModuleEditMixin, UpdateView):
 # DELETE               ↓ VIEW mixin ↓
 class ModuleDeleteView(InstructorModuleMixin, DeleteView):
     template_name = 'manage/module/delete.html'
+
+########################
+###                   ##
+###  TOPIC/RESOURCE   ##
+###                   ##
+########################
+
+class ResourceCreateUpdateView(TemplateResponseMixin, View):
+  topic = None
+  model = None
+  obj = None
+  template_name = 'manage/resource/form.html'
+  context_object_name = 'resource'
+
+  def get_model(self, model_name):
+    """ Checks whether the model is Text/Video/Image/File and obtain the class for given model. """
+    if model_name in ['text', 'video', 'image', 'file']:
+      return apps.get_model(app_label='modules', model_name=model_name)
+    return None
+  
+  def get_form(self, model, *args, **kwargs):
+    """
+      Creates a dynamic form and excludes certain common fields,
+      instead of including fields for each model in particular.
+      (What is left will be included automatically)
+    """
+    Form = modelform_factory(model, exclude=['instructor', 'created', 'updated'])
+    return Form(*args, **kwargs)
+
+  def dispatch(self, request, topic_id, model_name, id=None):
+    """
+      Receives the corresponding URL parrameters.
+      Stores the Model (text/file/video/image) + Module + Content as a single Class.
+    """
+    self.topic = get_object_or_404(Topic, id=topic_id, module__instructor=request.user)
+    self.model = self.get_model(model_name) # Model name of content to be created/updated
+    if id: # then Update the model:
+      self.obj = get_object_or_404(self.model, id=id, creator=request.user)
+    # else Create a new one:
+    return super().dispatch(request, topic_id, model_name, id)
+
+  def get(self, request, topic_id, model_name, id=None):
+    """
+      Invoked when a GET request is being passed to build the model form.
+      <self.obj> is None if no ID is provided, i.e. no form is created.
+    """
+    form = self.get_form(self.model, instance=self.obj)
+    context = {'form': form, 'object': self.obj}
+    return self.render_to_response(context)
+
+  def post(self, request, topic_id, model_name, id=None):
+    form = self.get_form(self.model, instance=self.obj, data=request.POST, files=request.FILES)
+    context = {'form': form, 'object': self.obj}
+
+    if form.is_valid():
+      obj = form.save(commit=False)
+      obj.instructor = request.user
+      obj.save()
+      if not id:
+        # New Resource
+        Resource.objects.create(topic=self.topic, item=obj)
+      return redirect('module_content_list', self.topic.id)
+    
+    return self.render_to_response(context)
+
+class ContentDeleteView(View):
+  
+  def post(self, request, id):
+    """
+      Retrieves the Resource object with the given ID.
+
+    """
+    resource = get_object_or_404(Resource, id=id, topic__module__instructor=request.user)
+    topic = resource.topic
+    # Deletes the File object
+    resource.item.delete()
+    # Deletes the Resource object
+    resource.delete()
+    return redirect('topic_resource_list', topic.id)
+
+class TopicResourceListView(TemplateResponseMixin, View):
+  template_name = 'manage/topic/resource_list.html'
+  context_object_name = 'resources'
+  def get(self, request, topic_id):
+    topic = get_object_or_404(Topic, id=topic_id,module__instructor=request.user)
+    return self.render_to_response({'topic': topic})
+
+############
+## TO DO: ##
+############
+
 
 
 """

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load module %}
+
+{% block title %}
+  {{ topic.title }}
+{% endblock %}
+
+{% block content %}
+
+{% for topic in module.topics.all %}
+  <h1>{{topic.title}}</h1>
+  {% empty %}
+  No topics yet.
+{% endfor %}
+
+{% endblock content %}

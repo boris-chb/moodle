@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  {% if object %}
+    Edit "{{ object.title }}"
+  {% else %}
+    Add new resource
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h1>
+    {% if object %}
+      Edit resource "{{ object.title }}"
+    {% else %}
+      Add new resource
+    {% endif %}
+  </h1>
+  <div class="topic">
+    <h2>Topic info (Lab/Lecture):</h2>
+    <form method="post" enctype="multipart/form-data">
+      {{ form|crispy }}
+      {% csrf_token %}
+      <br>
+      <p><input type="submit" class="btn btn-success" value="Save content"></p>
+    </form>
+  </div>
+{% endblock %}
