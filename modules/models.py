@@ -4,6 +4,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
 from taggit.managers import TaggableManager
+from tinymce import models as tinymce_models
+
 
 LEVEL_CHOICES = [
     ('U', 'Undergraduate'),
@@ -51,7 +53,7 @@ class Topic(models.Model):
     tag = TaggableManager()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    description = models.TextField(blank=True)
+    description = tinymce_models.HTMLField()
 
     def __str__(self):
         return self.title

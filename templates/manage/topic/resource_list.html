@@ -2,12 +2,58 @@
 {% load module %}
 
 {% block title %}
-  {{ topic.title }}
+{{ module.title }}
 {% endblock %}
 
 {% block content %}
+  {% with module=topic.module %}
+    <h1>Module "{{ module.title }}"</h1>
+    <div class="contents">
+      <h3>Topics</h3>
+      <ul id="topics">
+        {% for t in module.topics.all %}
+          <li data-id="{{ t.id }}" {% if t == topic %}
+           class="selected"{% endif %}>
+            <a href="{% url 'topic_resource_list' t.id %}">
+              <br>
+              {{ t.title }}
+            </a>
+          </li>
+        {% empty %}
+          <li>No topics yet.</li>
+        {% endfor %}
+      </ul>
+      <p><a href="{% url 'module_topic_update' module.id %}">Edit topics</a></p>
+    </div>
+    <div class="topic">
+      <h2>{{ topic.title }}</h2>
+      <h3>Topic contents:</h3>
 
-{% with module=topic.module %}
-<h1>{{ module.title }}</h1>
-
-{% endblock content %}
+      <div id="topic-resources">
+        {% for resource in topic.resources.all %}
+          <div data-id="{{ resource.id }}">
+            {% with item=resource.item %}
+              <p>{{ item }} ({{ item|model_name }})</p>
+              <a href="{% url 'topic_resource_update' topic.id item|model_name item.id %}">Edit</a>
+              <form action="{% url 'topic_resource_delete' resource.id %}" method="post">
+                <input type="submit" class="btn btn-danger" value="Delete">
+                {% csrf_token %}
+              </form>
+            {% endwith %}
+          </div>
+        {% empty %}
+          <p>This topic has no resources yet.</p>
+        {% endfor %}
+      </div>
+      <h3>Add new content:</h3>
+      <ul class="content-types">
+        <li><a href="{% url 'topic_resource_create' topic.id 'text' %}">
+        Text</a></li>
+        <li><a href="{% url 'topic_resource_create' topic.id 'video' %}">
+        Video</a></li>
+        <li><a href="{% url 'topic_resource_create' topic.id 'file' %}">
+        File</a></li>
+      </ul>
+    </div>
+  {% endwith %}
+{% endblock %}

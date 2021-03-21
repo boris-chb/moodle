@@ -3,6 +3,7 @@ from django.forms.models import modelform_factory
 from .forms import TopicFormSet
 from django.apps import apps
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateResponseMixin, View # Render templates => HTTP response
 from django.contrib.messages.views import SuccessMessageMixin
@@ -57,51 +58,52 @@ class InstructorModuleEditMixin(InstructorModuleMixin, InstructorEditMixin):
     context_object_name = 'module'
 
 
-                        ########################
-                        ###                   ##
-                        ### CLASS BASED VIEWS ##
-                        ###                   ##
-                        ########################
-
+########################
+### CLASS BASED VIEWS ##
+########################
 
 ########################
-###                   ##
+
+########################
 ###     MODULES       ##
-###                   ##
 ########################
 
 # READ                 ↓ VIEW mixin ↓
 class ModuleListView(InstructorModuleMixin, ListView):
     template_name = 'manage/module/list.html'
     context_object_name = 'modules'
+  
+class ModuleDetailView(DetailView):
+  model = Module
+  template_name = 'module/detail.html'
+  context_object_name = 'module'
 
-# CREATE               ↓ EDIT mixin ↓
+# CREATE                                       ↓ EDIT mixin ↓
 class ModuleCreateView(SuccessMessageMixin, InstructorModuleEditMixin, CreateView):
     # template_name = 'manage/module/form.html'
-    fields = '__all__'
+    fields = ['code', 'title', 'slug', 'level', 'overview']
     success_message = "%(title)s was created successully."
 
-# UPDATE               ↓ EDIT mixin ↓
+# UPDATE                   ↓ EDIT mixin ↓
 class ModuleUpdateView(InstructorModuleEditMixin, UpdateView):
     pass
 
 
-# DELETE               ↓ VIEW mixin ↓
+# DELETE                 ↓ VIEW mixin ↓
 class ModuleDeleteView(InstructorModuleMixin, DeleteView):
     template_name = 'manage/module/delete.html'
     context_object_name = 'module'
 
 ########################
-###                   ##
 ###      TOPIC        ##
-###                   ##
 ########################
 
 class ModuleTopicUpdateView(TemplateResponseMixin, View):
   """
     1. Build a ModuleFormSet instance using POST data.
     2. Validate the forms.
-    3. If the formset is valid, <.save()> is being called and changes are submitted to the database. Otherwise, render the template to display errors.
+    3. If the formset is valid, <.save()> is being called and changes are submitted to the database.
+    Otherwise, render the template to display errors.
   """
   template_name = 'manage/topic/formset.html'
   module = None
@@ -168,7 +170,7 @@ class ResourceCreateUpdateView(TemplateResponseMixin, View):
       instead of including fields for each model in particular.
       (What is left will be included automatically)
     """
-    Form = modelform_factory(model, exclude=['instructor', 'created', 'updated'])
+    Form = modelform_factory(model, exclude=['creator', 'created', 'updated'])
     return Form(*args, **kwargs)
 
   def dispatch(self, request, topic_id, model_name, id=None):
@@ -198,16 +200,16 @@ class ResourceCreateUpdateView(TemplateResponseMixin, View):
 
     if form.is_valid():
       obj = form.save(commit=False)
-      obj.instructor = request.user
+      obj.creator = request.user
       obj.save()
       if not id:
         # New Resource
         Resource.objects.create(topic=self.topic, item=obj)
-      return redirect('module_content_list', self.topic.id)
+      return redirect('topic_resource_list', self.topic.id)
     
     return self.render_to_response(context)
 
-class ContentDeleteView(View):
+class ResourceDeleteView(View):
   
   def post(self, request, id):
     """
