@@ -3,13 +3,13 @@
 {% block title %}Delete module{% endblock %}
 
 {% block content %}
-  <h1>Delete module "{{ object.title }}"</h1>
+  <h1>Delete module "{{ module.title }}"</h1>
 
   <div class="topic">
     <form method="post">
       {% csrf_token %}
-      <p>Are you sure you want to delete "{{ object.title }}"?</p>
-      <input type="submit" value="Confirm">
+      <p>Are you sure you want to delete "{{ module.title }}"?</p>
+      <input type="submit" class="btn btn-danger" value="Delete «{{module.title}}»">
     </form>
   </div>
 {% endblock %}

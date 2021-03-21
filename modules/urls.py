@@ -10,9 +10,12 @@ urlpatterns = [
     path('edit/<int:pk>/', views.ModuleUpdateView.as_view(), name='module_edit'),
     path('delete/<int:pk>/', views.ModuleDeleteView.as_view(), name='module_delete'),
 
-    # Topics / Resources
+    # Topics
+    path('topic/<int:pk>/', views.ModuleTopicUpdateView.as_view(), name='module_topic_update'),
+
+    # Resources
     path('topic/<int:topic_id>/', views.TopicResourceListView.as_view(), name='topic_resource_list'),
-    path('topic/<int:topic_id>/resources/<model_name>/create/', views.ResourceCreateUpdateView.as_view(), name='topic_resource_create'),
-    path('topic/<int:topic_id>/resources/<model_name>/<id>/', views.ResourceCreateUpdateView.as_view(), name='topic_resource_update'),
+    path('topic/<int:topic_id>/resources/create/', views.ResourceCreateUpdateView.as_view(), name='topic_resource_create'),
+    path('topic/<int:topic_id>/resources/<id>/', views.ResourceCreateUpdateView.as_view(), name='topic_resource_update'),
     path('resource/<int:id>/delete', views.ContentDeleteView.as_view(), name='topic_resource_delete'),
     ]

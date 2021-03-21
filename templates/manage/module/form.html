@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block comment %}
   This form is used for both Creating and Updating views.
@@ -7,7 +8,7 @@
 {% endblock %}
 
 {% block title %}
-  {% if object %}
+  {% if module %}
     Edit module "{{ object.title }}"
   {% else %}
     Create a new module
@@ -16,7 +17,7 @@
 
 {% block content %}
   <h1>
-    {% if object %}
+    {% if module %}
       Edit module "{{ object.title }}"
     {% else %}
       Create a new module
@@ -25,9 +26,9 @@
   <div class="module">
     <h2>module info</h2>
     <form method="post">
-      {{ form.as_p }}
+      {{ form|crispy }}
       {% csrf_token %}
-      <p><input type="submit" value="Save module"></p>
+      <p><input type="submit" class="btn btn-success"value="Save module"></p>
     </form>
   </div>
 {% endblock %}

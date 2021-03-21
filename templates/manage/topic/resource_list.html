@@ -7,10 +7,7 @@
 
 {% block content %}
 
-{% for topic in module.topics.all %}
-  <h1>{{topic.title}}</h1>
-  {% empty %}
-  No topics yet.
-{% endfor %}
+{% with module=topic.module %}
+<h1>{{ module.title }}</h1>
 
 {% endblock content %}
