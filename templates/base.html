@@ -11,7 +11,7 @@
   <main>
     <!-- NAVIGATION BAR -->
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <a class="navbar-brand" href="{% url 'home' %}">moodle</a>
+      <a class="navbar-brand" href="">moodle</a>
     {% if user.is_authenticated %}   
       <ul class="navbar-nav">
         <!-- Dropdown -->
@@ -21,9 +21,9 @@
             My Modules
           </a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="{% url "module_list" %}">All</a>
-            {% for module in object_list %}
-            <a class="dropdown-item" href="{{module.get_absolute_url}}">{{module.title}}</a>
+            <a class="dropdown-item" href="{% if request.user.is_staff %}{% url 'manage_module_list' %}{% else %}{% url 'module_list' %}{% endif %}">All</a>
+            {% for module in modules %}
+            <a class="dropdown-item" href="{{module.get_absolute_url}}">{{ module.title }}</a>
             {% endfor %}
           </div>
         </li>

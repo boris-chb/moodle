@@ -40,9 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Dev
-    'accounts',
-    'modules',
-    # 'library',
+    'accounts.apps.AccountsConfig',
+    'modules.apps.ModulesConfig',
+    'students.apps.StudentsConfig',
+    # 'library.apps.LibraryConfig',
 
     # 3rd party apps
     'taggit',

@@ -23,6 +23,9 @@ class Module(models.Model):
     instructor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    related_name='modules_created',
                                    on_delete=models.CASCADE)
+    students = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                      related_name='modules_enrolled',
+                                      blank=True)
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='U')
@@ -34,12 +37,13 @@ class Module(models.Model):
 
     def __str__(self):
         return self.title
-    
-    ## Experimental
+
+    # Experimental
     # def save(self, *args, **kwargs):
     #     if not self.code:
     #         self.code = f'{self.title}[:4]{self.id}'
     #         super().save(*args, **kwargs)
+
 
 class Topic(models.Model):
     """
@@ -50,7 +54,7 @@ class Topic(models.Model):
                                related_name='topics',
                                on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    tag = TaggableManager()
+    tag = TaggableManager(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     description = tinymce_models.HTMLField()
@@ -59,7 +63,7 @@ class Topic(models.Model):
         return self.title
 
 
-###   Content
+# Content
 class Resource(models.Model):
     """
         A Topic may contain multiple Resources.

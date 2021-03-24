@@ -1,31 +1,75 @@
 {% extends "base.html" %}
 
 {% block title %}
-  {{ object.title }}
+{{ object.title }}
 {% endblock %}
 
 {% block content %}
-    <h1>
-      {{ module.title }}
-    </h1>
-    <div class="module">
-      <h2>Overview</h2>
-      <p>
-        {{ module.topics.count }} topics.
-        Instructor: {{ module.instructor.get_full_name }}
-      </p>
-      {{ module.overview|linebreaks }}
-      {% if request.user.is_authenticated %}
-        <form action="{% url 'student_enroll_course' %}" method="post">
-          {{ enroll_form }}
-          {% csrf_token %}
-          <input type="submit" value="Enroll now">
-        </form>
-      {% else %}
-        <a href="{% url 'student_registration' %}" class="button">
-          Register to enroll
-        </a>
-      {% endif %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'module_list' %}">Modules</a>
+        </li>
+        <li class="breadcrumb-item">
+            {{ module.title }}
+        </li>
+    </ol>
+</nav>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <h1 class="mb-2">{{ module.title }}</h1>
+        <span class="text-muted">by {{ module.instructor.get_full_name }} | Level: {{ module.get_level_display }}</span>
     </div>
-  {% endwith %}
+    <div class="card-body">
+        <h2 class="mb-3">Overview</h2>
+        <p>
+            {{ module.topics.count }} topics.
+            Instructor: {{ module.instructor.get_full_name }}
+        </p>
+        {{ module.overview|linebreaks }}
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-10"><strong>Topics</strong></div>
+            <div class="col-2"><strong>Resources</strong></div>
+        </div>
+    </div>
+
+    <div class="list-group list-group-flush list-group-formset">
+        {% for topic in module.topics.all %}
+        <div class="list-group-item">
+            <div class="row">
+                <div class="col-10">
+                    {{ topic.title }}
+                </div>
+                <div class="col-2" style="text-align: center;">
+                    {{ topic.resources.all|length }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="card-footer">
+            {% if request.user.is_authenticated %}
+            <form action="{% url 'student_enroll_module' %}" method="POST">
+                {{ enroll_form }}
+                {% csrf_token %}
+                <input type="submit" class="btn btn-success" value="Enroll now">
+            </form>
+            {% elif request.user in module.students.all %}
+            Enrolled already
+            {% else %}
+            <a href="{% url 'student_registration' %}" class="btn btn-info">
+                Register to enroll
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

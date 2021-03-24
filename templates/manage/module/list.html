@@ -3,29 +3,34 @@
 {% block title %}My modules{% endblock %}
 
 {% block content %}
-  <h1>My modules</h1>
-
-    {% for module in modules %}
-    <div class="card">
-      <div class="card-header">
-        <span class="font-weight-bold"><h3 style="display: inline;"><a href="">{{ module.title }}</a><a href="{% url 'module_edit' module.id %}"></h3><i class="fas fa-edit"></i></a></span>
-        <br>
-        <span class="text-muted">by {{ module.instructor }} | {{ module.created }}</span>
-      </div>
-      <div class="card-body">
-        {{ module.overview|truncatewords:30|linebreaks }}
-      </div>
-      <div class="card-footer">
-        <a href="{% url 'module_topic_update' module.id %}"><i class="fas fa-list-ul"></i> Edit topics</a>  |  <a href="{% url 'module_delete' module.id %}"><i class="fas fa-trash-alt"></i> Delete</a>
-        
-      </div>
-    </div>
+<h1 class="mb-2">My modules</h1>
+<a href="{% url 'module_list' %}"><span class="text-info">View as Student</span></a>
+{% for module in modules %}
+<div class="card mt-3 mb-3">
+  <div class="card-header">
+    <a href="">
+      <h3 class="mr-2" style="display: inline;">{{ module.title }}</h3>
+    </a>
+    <a href="{% url 'module_edit' module.id %}">
+      </h3><i class="fas fa-edit"></i></a>
+    </span>
     <br>
-    {% empty %}
-      <p>You haven't created any modules yet.</p>
-  {% endfor %}
-    <p>
-      <a href="{% url 'module_create' %}" type="button" class="btn btn-primary">Create new module</a>
-    </p>
+    <span class="text-muted">created on {{ module.created }}</span>
   </div>
+  <div class="card-body">
+    {{ module.overview|truncatewords:30|linebreaks }}
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'module_topic_update' module.id %}"><i class="fas fa-list-ul"></i> Edit topics</a> |
+    <a href="{% url 'module_delete' module.id %}"><span class="text-danger"><i class="fas fa-trash-alt"></i>
+        Delete</span></a>
+  </div>
+</div>
+{% empty %}
+<p>You haven't created any modules yet.</p>
+{% endfor %}
+<p>
+  <a href="{% url 'module_create' %}" type="button" class="btn btn-primary">Create new module</a>
+</p>
+</div>
 {% endblock %}

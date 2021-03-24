@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}My modules{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/">Home</a>
+    </li>
+    <li class="breadcrumb-item">
+      Modules
+    </li>
+  </ol>
+</nav>
+
+<h1 class="m-3">All modules</h1>
+{% for module in modules %}
+<div class="card mt-3 mb-3">
+  <div class="card-header">
+    <a href="">
+      <h3 class="mr-2"><a href="{% url 'module_detail' module.slug %}">{{ module.title }}</a></h3>
+    </a>
+    <span class="text-muted">created on {{ module.created }}</span>
+  </div>
+  <div class="card-body">
+    <p class="mb-1 mt-1">
+      <strong>Level:</strong> {{ module.get_level_display }}<br>
+      <strong>Topics:</strong> {{ module.total_topics }}<br>
+      <strong>Overview:</strong>
+    </p>
+    <p class="card-text">
+      {{ module.overview|truncatewords:30|linebreaks }}
+    </p>
+  </div>
+  <div class="card-footer">
+    <input type="submit" class="btn btn-info" value="Bookmark">
+  </div>
+</div>
+{% empty %}
+<p>No modules yet.</p>
+{% endfor %}
+{% endblock %}
