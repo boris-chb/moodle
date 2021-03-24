@@ -60,6 +60,14 @@ Django = ">=1.11"
 
 [[package]]
 category = "main"
+description = "A Django application that contains a widget to render a form field as a TinyMCE editor."
+name = "django-tinymce"
+optional = false
+python-versions = "*"
+version = "3.2.0"
+
+[[package]]
+category = "main"
 description = "World timezone definitions, modern and historical"
 name = "pytz"
 optional = false
@@ -75,7 +83,7 @@ python-versions = ">=3.5"
 version = "0.4.1"
 
 [metadata]
-content-hash = "9520a068820bc3332b076604dfdbcd195a77241a860062c4a23f6093364c3d2c"
+content-hash = "0677165631271310266f5f7032211359eda42a49287d70de5d8e2f5d7d5c1a11"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -98,6 +106,10 @@ django-crispy-forms = [
 django-taggit = [
     {file = "django-taggit-1.3.0.tar.gz", hash = "sha256:4a833bf71f4c2deddd9745924eee53be1c075d7f0020a06f12e29fa3d752732d"},
     {file = "django_taggit-1.3.0-py3-none-any.whl", hash = "sha256:609b0223d8a652f3fae088b7fd29f294fdadaca2d7931d45c27d6c59b02fdf31"},
+]
+django-tinymce = [
+    {file = "django-tinymce-3.2.0.tar.gz", hash = "sha256:e6e8a658ed53cd293de1f62787f98bfab8fd4226aba505c9848e45eca69731c9"},
+    {file = "django_tinymce-3.2.0-py3-none-any.whl", hash = "sha256:4f7626d5b8ac819c1268331de06ce1a6de69a8e88e14c4cdc8bcfe383f2b0adf"},
 ]
 pytz = [
     {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},

@@ -1,3 +1,5 @@
+from os import path
+
 from django.conf import settings
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
@@ -104,6 +106,7 @@ class ItemBase(models.Model):
 
     def __str__(self):
         return self.title
+
 
 
 ### File Type Classes ###

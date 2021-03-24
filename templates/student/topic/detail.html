@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for topic in module.topics.all %}
+{{topic.title}}
+{% endfor %}
+
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">Topic Title #1</h5>
+  </div>
+  <div class="card-body">
+    <p class="card-text">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris quis iaculis diam, vel porta purus. Quisque sagittis, nunc eget faucibus feugiat, sem dui mattis nibh, et vestibulum velit mauris et odio. Mauris in nunc a felis pellentesque vestibulum. Nunc a molestie ipsum, nec placerat est.
+    </p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  <div class="card-footer">
+    <strong>Resources:</strong>
+  </div>
+</div>
+{% endblock content %}

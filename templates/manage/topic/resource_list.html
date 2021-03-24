@@ -47,12 +47,10 @@
       </div>
       <h3>Add new content:</h3>
       <ul class="content-types">
-        <li><a href="{% url 'topic_resource_create' topic.id 'text' %}">
-        Text</a></li>
-        <li><a href="{% url 'topic_resource_create' topic.id 'video' %}">
-        Video</a></li>
-        <li><a href="{% url 'topic_resource_create' topic.id 'file' %}">
-        File</a></li>
+        <li class="btn btn-outline-secondary"><a href="{% url 'topic_resource_create' topic.id 'video' %}">
+        🎞️ Video (URL)</a></li>
+        <li class="btn btn-outline-secondary"><a href="{% url 'topic_resource_create' topic.id 'file' %}">
+        📂 File</a></li>
       </ul>
     </div>
   {% endwith %}

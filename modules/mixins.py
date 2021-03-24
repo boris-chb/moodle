@@ -8,7 +8,6 @@ class InstructorMixin:
     """
     Returns a Queryset with Modules that belong to current user by overwriting <get_queryset()>.
     """
-
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.filter(instructor=self.request.user)
