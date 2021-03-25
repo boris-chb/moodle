@@ -2,33 +2,18 @@
 {% load module %}
 
 {% block title %}
-{{ module.title }}
+{{ topic.title }}
 {% endblock %}
 
 {% block content %}
-  {% with module=topic.module %}
-    <h1>Module "{{ module.title }}"</h1>
-    <div class="contents">
-      <h3>Topics</h3>
-      <ul id="topics">
-        {% for t in module.topics.all %}
-          <li data-id="{{ t.id }}" {% if t == topic %}
-           class="selected"{% endif %}>
-            <a href="{% url 'topic_resource_list' t.id %}">
-              <br>
-              {{ t.title }}
-            </a>
-          </li>
-        {% empty %}
-          <li>No topics yet.</li>
-        {% endfor %}
-      </ul>
-      <p><a href="{% url 'module_topic_update' module.id %}">Edit topics</a></p>
-    </div>
+
+
     <div class="topic">
       <h2>{{ topic.title }}</h2>
       <h3>Topic contents:</h3>
-
+      {{ topic.description|safe }}
+      <br>
+      <h3 class="m-3">Resources:</h3>
       <div id="topic-resources">
         {% for resource in topic.resources.all %}
           <div data-id="{{ resource.id }}">
@@ -53,5 +38,4 @@
         📂 File</a></li>
       </ul>
     </div>
-  {% endwith %}
 {% endblock %}
