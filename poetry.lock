@@ -28,6 +28,18 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 category = "main"
+description = "An automated slug field for Django."
+name = "django-autoslug"
+optional = false
+python-versions = "*"
+version = "1.9.8"
+
+[package.extras]
+cyrillic = ["pytils (>=0.2)"]
+translitcodec = ["translitcodec (>=0.3)"]
+
+[[package]]
+category = "main"
 description = "Provides a country field for Django models."
 name = "django-countries"
 optional = false
@@ -83,7 +95,7 @@ python-versions = ">=3.5"
 version = "0.4.1"
 
 [metadata]
-content-hash = "0677165631271310266f5f7032211359eda42a49287d70de5d8e2f5d7d5c1a11"
+content-hash = "939e59be01e3ffc2f9dc673d6cae68eefe6b8e35d63f920c6accdb774e685cb4"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -94,6 +106,10 @@ asgiref = [
 django = [
     {file = "Django-3.1.7-py3-none-any.whl", hash = "sha256:baf099db36ad31f970775d0be5587cc58a6256a6771a44eb795b554d45f211b8"},
     {file = "Django-3.1.7.tar.gz", hash = "sha256:32ce792ee9b6a0cbbec340123e229ac9f765dff8c2a4ae9247a14b2ba3a365a7"},
+]
+django-autoslug = [
+    {file = "django-autoslug-1.9.8.tar.gz", hash = "sha256:bae66c27d35615f472865b99c4d107f3b3add3d22ee337e84960fc07694abd45"},
+    {file = "django_autoslug-1.9.8-py2.py3-none-any.whl", hash = "sha256:26459eeddec207e307c55777a10fc25d17f4978753695340b16a17ed248a6f70"},
 ]
 django-countries = [
     {file = "django-countries-7.0.tar.gz", hash = "sha256:11191d245256b4e46a4715e391ce0b2fa982e968a6a2b4d263cace95ebe448c1"},
