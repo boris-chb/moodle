@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     # 3rd party apps
     'taggit',
     'crispy_forms',
-    'tinymce'
+    'tinymce',
+    # 'django-autoslug',
     # 'django_extensions',
 ]
 

@@ -10,7 +10,6 @@ class ModuleAdmin(admin.ModelAdmin):
     list_display = ['title', 'created', 'instructor']
     list_filter = ['created', 'instructor']
     search_fields = ['title', 'overview', 'instructor']
-    prepopulated_fields = {'slug': ('title',)}
     inlines = [TopicInline]
 
 admin.site.register(Topic)

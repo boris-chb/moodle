@@ -9,6 +9,8 @@ from django.urls import reverse
 from taggit.managers import TaggableManager
 from tinymce import models as tinymce_models
 
+from autoslug import AutoSlugField
+
 
 LEVEL_CHOICES = [
     ('U', 'Undergraduate'),
@@ -31,7 +33,7 @@ class Module(models.Model):
                                       related_name='modules_enrolled',
                                       blank=True)
     title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = AutoSlugField(populate_from='title')
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='U')
     created = models.DateTimeField(auto_now_add=True)
     overview = models.TextField()

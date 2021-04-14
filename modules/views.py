@@ -70,7 +70,7 @@ class ModuleDetailView(DetailView):
 
 class ModuleCreateView(SuccessMessageMixin, InstructorModuleEditMixin, CreateView):
     # template_name = 'manage/module/form.html'
-    fields = ['code', 'title', 'slug', 'level', 'overview']
+    fields = ['code', 'title', 'level', 'overview']
     success_message = "%(title)s was created successully."
 
 
