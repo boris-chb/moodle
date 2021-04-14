@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.base import TemplateResponseMixin, View
 
 from accounts.forms import CustomUserCreationForm
 from .forms import ModuleEnrollForm
@@ -41,39 +42,46 @@ class StudentEnrollModuleView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         # Get the Module from the form data
         self.module = form.cleaned_data['module']
+        print(self.module)
         # Add the user to the set of enrolled students
         self.module.students.add(self.request.user)
         return super().form_valid(form)
 
     def get_success_url(self):
         # URL to redirect student to in case of successfull enrollment
-        return reverse_lazy('module_list')
+        return reverse_lazy('student_module_detail',
+                            args=[self.module.id])
+
 
 class StudentModuleListView(LoginRequiredMixin, StudentModuleMixin, ListView):
-  """
-  A list view for Students to see Modules they're enrolled in.
-  """
-  template_name = 'student/module/list.html'
-  context_object_name = 'modules'
-
+    """
+    A list view for Students to see Modules they're enrolled in.
+    """
+    template_name = 'student/module/list.html'
+    context_object_name = 'modules'
 
 
 class StudentModuleDetailView(StudentModuleMixin, DetailView):
-  template_name = 'student/module/detail.html'
-  # context_object_name = 'modules'
+    template_name = 'student/module/detail.html'
+    # context_object_name = 'modules'
 
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    module = self.get_object()
-    if 'topic_id' in self.kwargs:
-      # Get the topic
-      context['topic'] = module.topics.get(id=self.kwargs['topic_id'])
-    else:
-      # Get the first topic
-      context['topic'] = module.topics.all()[0]
-    return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        module = self.get_object()
+        if 'topic_id' in self.kwargs:
+            # Get the topic
+            context['topic'] = module.topics.get(id=self.kwargs['topic_id'])
+        else:
+            # Get the first topic
+            context['topic'] = module.topics.all()[0]
+        return context
 
-# class StudentTopicDetailView(StudentTopicMixins, DetailView):
-#   template_name = 'student/topic/detail.html'
-#   model = Topic
-#   context_object_name = 'topics'
+
+class StudentTopicDetailView(StudentModuleMixin, View):
+    template_name = 'manage/topic/resource_list.html'
+    context_object_name = 'topics'
+
+    def get(self, request, topic_id):
+        topic = get_object_or_404(
+            Topic, id=topic_id, module__students__in=request.user)
+        return self.render_to_response({'topic': topic})

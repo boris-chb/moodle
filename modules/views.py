@@ -29,7 +29,7 @@ class ManageModuleListView(InstructorModuleMixin, ListView):
     A view for Instructors to manage Modules created by them
     """
     template_name = 'manage/module/list.html'
-    context_object_name = 'modules'
+    context_object_name = 'module'
 
 
 class ModuleListView(TemplateResponseMixin, View):
@@ -148,7 +148,7 @@ class ResourceCreateUpdateView(TemplateResponseMixin, View):
     context_object_name = 'resource'
 
     def get_model(self, model_name):
-        """ Checks whether the model is Text/Video/Image/File and obtain the class for given model. """
+        """ Checks whether the model is valid file type and obtain the class for given model. """
         if model_name in ['text', 'video', 'image', 'file']:
             return apps.get_model(app_label='modules', model_name=model_name)
         return None
@@ -219,8 +219,3 @@ class ResourceDeleteView(View):
         # Deletes the Resource object
         resource.delete()
         return redirect('topic_resource_list', topic.id)
-
-
-############
-## TO DO: ##
-############

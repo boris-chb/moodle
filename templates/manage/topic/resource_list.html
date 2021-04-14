@@ -31,11 +31,12 @@
         {% endfor %}
       </div>
       <h3>Add new content:</h3>
-      <ul class="content-types">
-        <li class="btn btn-outline-secondary"><a href="{% url 'topic_resource_create' topic.id 'video' %}">
-        🎞️ Video (URL)</a></li>
-        <li class="btn btn-outline-secondary"><a href="{% url 'topic_resource_create' topic.id 'file' %}">
-        📂 File</a></li>
+      <ul>
+        <a href="{% url 'topic_resource_create' topic.id 'video' %}">
+          <li class="btn btn-outline-secondary">🎞️ Video (URL)</li></a>
+
+        <a href="{% url 'topic_resource_create' topic.id 'file' %}">
+          <li class="btn btn-outline-secondary">📂 File</li></a>
       </ul>
     </div>
 {% endblock %}

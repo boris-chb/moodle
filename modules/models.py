@@ -1,9 +1,10 @@
 from os import path
 
 from django.conf import settings
-from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.db import models
+from django.urls import reverse
 
 from taggit.managers import TaggableManager
 from tinymce import models as tinymce_models
@@ -24,7 +25,8 @@ class Module(models.Model):
     code = models.CharField(max_length=15, unique=True)
     instructor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    related_name='modules_created',
-                                   on_delete=models.CASCADE)
+                                   null=True,
+                                   on_delete=models.SET_NULL)
     students = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                       related_name='modules_enrolled',
                                       blank=True)
@@ -39,6 +41,10 @@ class Module(models.Model):
 
     def __str__(self):
         return self.title
+
+    # def get_absolute_url(self):
+    #     return reverse('modules:detail',
+    #                    kwargs={'slug': self.slug})
 
     # Experimental
     # def save(self, *args, **kwargs):
@@ -106,7 +112,6 @@ class ItemBase(models.Model):
 
     def __str__(self):
         return self.title
-
 
 
 ### File Type Classes ###

@@ -23,9 +23,13 @@
     <div class="card-header">
         <h1 class="mb-2">{{ module.title }}</h1>
         <span class="text-muted">
-          <!-- TODO -->
-          by <a href="">{{ module.instructor.get_full_name }}</a> | Level: <a href="">{{ module.get_level_display }}</a> | Code: {{ module.code }}
-          </span>
+            <!-- TODO -->
+            <div class="card-header">
+                <h1 class="mb-2">{{ module.title }}</h1>
+                <span class="text-muted">by {{ module.instructor.get_full_name }} | Level: {{ module.get_level_display
+                    }}</span>
+            </div>
+        </span>
     </div>
     <div class="card-body">
         <h2 class="mb-3">Overview</h2>
@@ -49,7 +53,7 @@
         <div class="list-group-item">
             <div class="row">
                 <div class="col-9">
-                  <!-- TODO -->
+                    <!-- TODO -->
                     <a href="">{{ topic.title }}</a>
                 </div>
                 <div class="col-3" style="text-align: center;">
@@ -60,12 +64,7 @@
         {% endfor %}
 
         <div class="card-footer">
-            {% if request.user in module.students.all %}
-            <form action="" method="POST">
-              {% csrf_token %}
-              <input type="submit" class="btn btn-danger" value="Unenroll from {{ module.title }}">
-            </form>
-            {% elif request.user.is_authenticated %}
+            {% if request.user.is_authenticated %}
             <form action="{% url 'student_enroll_module' %}" method="POST">
                 {{ enroll_form }}
                 {% csrf_token %}
