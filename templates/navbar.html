@@ -1,0 +1,64 @@
+<!-- NAVIGATION BAR -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a class="navbar-brand" href="">moodle</a>
+    {% if user.is_authenticated %}
+    <ul class="navbar-nav">
+        <!-- Dropdown -->
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">
+                My Modules
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item"
+                    href="{% if request.user.is_staff %}{% url 'modules:manage_list' %}{% endif %}">All</a>
+                {% for module in modules %}
+                <a class="dropdown-item" href="{% url 'modules:detail' module.slug %}">{{ module.title }}</a>
+                {% endfor %}
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="">Library</a>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="">Contact</a>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="">About</a>
+        </li>
+
+        <!-- Social Buttons -->
+        <li class="nav-item"><a class="nav-link" href=""><i class="fa fa-facebook mr-1"></i></a></li>
+        <li class="nav-item"><a class="nav-link" href=""><i class="fa fa-twitter"></i></a> </li>
+
+    </ul>
+    <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                {{ user.username }}
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'password_change'%}">Change password</a>
+            </div>
+        </li>
+
+        <li class="nav-item mr-auto">
+            <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+        </li>
+    </ul>
+    {% else %}
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Log In</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+        </li>
+    </ul>
+    {% endif %}
+</nav>
+<!-- END NAVIGATION BAR -->

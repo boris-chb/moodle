@@ -4,12 +4,12 @@
 
 {% block content %}
 <h1 class="mb-2">My modules</h1>
-<a href="{% url 'module_list' %}"><span class="text-info">View as Student</span></a>
-{% for module in modules %}
+<a href="{% url 'modules:list' %}"><span class="text-info">View as Student</span></a>
+{% for module in object_list %}
 <div class="card mt-3 mb-3">
   <div class="card-header">
-    <h3 class="mr-2"><a href="{% url 'module_detail' module.slug %}">{{ module.title }}</a></h3>
-    <a class="fas fa-edit"href="{% url 'module_edit' module.id %}"></a>
+    <h3 class="mr-2"><a href="{% url 'modules:detail' module.slug %}">{{ module.title }}</a></h3>
+    <a class="fas fa-edit" href="{% url 'modules:edit' module.id %}"></a>
     </span>
     <br>
     <span class="text-muted">created on {{ module.created }}</span>
@@ -18,8 +18,8 @@
     {{ module.overview|truncatewords:30|linebreaksbr }}
   </div>
   <div class="card-footer">
-    <a href="{% url 'module_topic_update' module.id %}"><i class="fas fa-list-ul"></i> Edit topics</a> |
-    <a href="{% url 'module_delete' module.id %}"><span class="text-danger"><i class="fas fa-trash-alt"></i>
+    <a href="{% url 'modules:topic_update' module.id %}"><i class="fas fa-list-ul"></i>Edit topics</a> |
+    <a href="{% url 'modules:delete' module.id %}"><span class="text-danger"><i class="fas fa-trash-alt"></i>
         Delete</span></a>
   </div>
 </div>
@@ -27,7 +27,7 @@
 <p>You haven't created any modules yet.</p>
 {% endfor %}
 <p>
-  <a href="{% url 'module_create' %}" type="button" class="btn btn-primary">Create new module</a>
+  <a href="{% url 'modules:create' %}" type="button" class="btn btn-primary">Create new module</a>
 </p>
 </div>
 {% endblock %}

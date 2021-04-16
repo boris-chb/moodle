@@ -11,7 +11,7 @@
             <a href="/">Home</a>
         </li>
         <li class="breadcrumb-item">
-            <a href="{% url 'module_list' %}">Modules</a>
+            <a href="{% url 'modules:list' %}">Modules</a>
         </li>
         <li class="breadcrumb-item">
             {{ module.title }}
@@ -47,7 +47,9 @@
             <div class="row">
                 <div class="col-9">
                     <!-- TODO -->
-                    <a href="">{{ topic.title }}</a>
+                    <a href="url 'topic_resource_list' topic.id">{{ topic.title }}</a>
+                    {% empty %}
+                    No topics yet.
                 </div>
                 <div class="col-3" style="text-align: center;">
                     {{ topic.resources.all|length }}

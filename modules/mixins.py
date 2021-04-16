@@ -8,6 +8,7 @@ class InstructorMixin:
     """
     Returns a Queryset with Modules that belong to current user by overwriting <get_queryset()>.
     """
+
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.filter(instructor=self.request.user)
@@ -28,7 +29,7 @@ class InstructorModuleMixin(InstructorMixin, LoginRequiredMixin, UserPassesTestM
     model = Module
     fields = ['title', 'code', 'level', 'overview']
     # Redirect URL:
-    success_url = reverse_lazy('module_list')
+    success_url = reverse_lazy('modules:list')
 
     # Checks whether user is staff (Instructor)
     # Students will get 403 Access Denied

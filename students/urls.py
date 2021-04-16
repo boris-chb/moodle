@@ -14,6 +14,6 @@ urlpatterns = [
          name='student_module_detail'),
 
     # Topics
-    path('module/topic/<topic_id>/', views.StudentModuleDetailView.as_view(),
+    path('module/topic/<topic_id>/', views.StudentTopicDetailView.as_view(),
          name='student_topic_detail'),
 ]

@@ -32,7 +32,7 @@ class Module(models.Model):
     students = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                       related_name='modules_enrolled',
                                       blank=True)
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique=True)
     slug = AutoSlugField(populate_from='title')
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='U')
     created = models.DateTimeField(auto_now_add=True)
@@ -44,15 +44,9 @@ class Module(models.Model):
     def __str__(self):
         return self.title
 
-    # def get_absolute_url(self):
-    #     return reverse('modules:detail',
-    #                    kwargs={'slug': self.slug})
-
-    # Experimental
-    # def save(self, *args, **kwargs):
-    #     if not self.code:
-    #         self.code = f'{self.title}[:4]{self.id}'
-    #         super().save(*args, **kwargs)
+    def get_absolute_url(self):
+        return reverse('modules:detail',
+                       kwargs={'slug': self.slug})
 
 
 class Topic(models.Model):

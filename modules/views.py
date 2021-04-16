@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateResponseMixin, View
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse_lazy
 
 from .models import Module, Topic, Resource
 from .mixins import InstructorMixin, InstructorEditMixin, InstructorModuleMixin, InstructorModuleEditMixin
@@ -29,7 +30,9 @@ class ManageModuleListView(InstructorModuleMixin, ListView):
     A view for Instructors to manage Modules created by them
     """
     template_name = 'manage/module/list.html'
-    context_object_name = 'module'
+
+
+manage_module_list_view = ManageModuleListView.as_view()
 
 
 class ModuleListView(TemplateResponseMixin, View):
@@ -49,6 +52,9 @@ class ModuleListView(TemplateResponseMixin, View):
         return self.render_to_response({'modules': modules})
 
 
+module_list_view = ModuleListView.as_view()
+
+
 class ModuleDetailView(DetailView):
     """
     Renders the view for Module information.
@@ -56,7 +62,6 @@ class ModuleDetailView(DetailView):
     """
     model = Module
     template_name = 'module/detail.html'
-    context_object_name = 'module'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -68,19 +73,33 @@ class ModuleDetailView(DetailView):
         return context
 
 
+module_detail_view = ModuleDetailView.as_view()
+
+
 class ModuleCreateView(SuccessMessageMixin, InstructorModuleEditMixin, CreateView):
     # template_name = 'manage/module/form.html'
     fields = ['code', 'title', 'level', 'overview']
     success_message = "%(title)s was created successully."
 
 
+module_create_view = ModuleCreateView.as_view()
+
+
 class ModuleUpdateView(InstructorModuleEditMixin, UpdateView):
     pass
+
+
+module_update_view = ModuleUpdateView.as_view()
 
 
 class ModuleDeleteView(InstructorModuleMixin, DeleteView):
     template_name = 'manage/module/delete.html'
     context_object_name = 'module'
+    success_message = "%(title)s was deleted successully."
+    success_url = reverse_lazy("modules:manage_list")
+
+
+module_delete_view = ModuleDeleteView.as_view()
 
 
 ########################
@@ -88,7 +107,7 @@ class ModuleDeleteView(InstructorModuleMixin, DeleteView):
 ########################
 
 
-class ModuleTopicUpdateView(TemplateResponseMixin, View):
+class TopicUpdateView(TemplateResponseMixin, View):
     """
           1. Build a ModuleFormSet instance using POST data.
           2. Validate the forms.
@@ -120,17 +139,20 @@ class ModuleTopicUpdateView(TemplateResponseMixin, View):
         formset = self.get_formset(data=request.POST)
         if formset.is_valid():
             formset.save()
-            return redirect('module_list')
+            return redirect('modules:list')
         context = {'module': self.module, 'formset': formset}
         # <render_to_response> is provided by TemplateResponseMixin
         return self.render_to_response(context)
 
 
+topic_update_view = TopicUpdateView.as_view()
+
 ########################
 ###     RESOURCE      ##
 ########################
 
-class TopicResourceListView(TemplateResponseMixin, View):
+
+class ResourceListView(TemplateResponseMixin, View):
     template_name = 'manage/topic/resource_list.html'
     context_object_name = 'topics'
 
@@ -138,6 +160,9 @@ class TopicResourceListView(TemplateResponseMixin, View):
         topic = get_object_or_404(
             Topic, id=topic_id, module__instructor=request.user)
         return self.render_to_response({'topic': topic})
+
+
+resource_list_view = ResourceListView.as_view()
 
 
 class ResourceCreateUpdateView(TemplateResponseMixin, View):
@@ -199,9 +224,12 @@ class ResourceCreateUpdateView(TemplateResponseMixin, View):
             if not id:
                 # New Resource
                 Resource.objects.create(topic=self.topic, item=obj)
-            return redirect('topic_resource_list', self.topic.id)
+            return redirect('modules:resource_list_view', self.topic.id)
 
         return self.render_to_response(context)
+
+
+resource_create_view = ResourceCreateUpdateView.as_view()
 
 
 class ResourceDeleteView(View):
@@ -218,4 +246,7 @@ class ResourceDeleteView(View):
         resource.item.delete()
         # Deletes the Resource object
         resource.delete()
-        return redirect('topic_resource_list', topic.id)
+        return redirect('modules:resource_list_view', topic.id)
+
+
+resource_delete_view = ResourceDeleteView.as_view()
