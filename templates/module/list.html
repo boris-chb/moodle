@@ -19,7 +19,7 @@
 <div class="card mt-3 mb-3">
   <div class="card-header">
     <a href="">
-      <h3 class="mr-2"><a href="{% url 'module_detail' module.slug %}">{{ module.title }}</a></h3>
+      <h3 class="mr-2"><a href="{% url 'modules:detail' module.slug %}">{{ module.title }}</a></h3>
     </a>
     <span class="text-muted">created on {{ module.created }}</span>
   </div>

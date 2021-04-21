@@ -1,0 +1,15 @@
+{% comment %}
+Usage: {% include "flavors/_flavor_search.html" %}
+{% endcomment %}
+
+<div class="row no-gutters align-items-center m-0">
+    <div class="col-9">
+        <form action="{% url 'modules:list' %}" method="GET">
+            <input class="form-control form-control-sm form-control-borderless" type="text" name="q"
+                placeholder="Search modules" />
+        </form>
+    </div>
+    <div class="col-3">
+        <button type="submit" class="btn ml-1 btn-sm btn-info"><i class="fas fa-search"></i></button>
+    </div>
+</div>

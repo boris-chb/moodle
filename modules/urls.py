@@ -1,38 +1,39 @@
 
 from django.urls import path
-from . import views
+from .views import (
+    manage_module_list_view,
+    module_list_view,
+    module_detail_view,
+    module_create_view,
+    module_update_view,
+    module_delete_view,
+    topic_update_view,
+    resource_list_view,
+    resource_create_view,
+    resource_delete_view
+)
+
+app_name = 'modules'
 
 urlpatterns = [
     # Order: View > Create > Update > Delete
     # Modules
-    # List View For Instructors
-    path('dashboard/',
-         views.ManageModuleListView.as_view(), name='manage_module_list'),
-    # List View For Students
-    path('all/', views.ModuleListView.as_view(), name='module_list'),
-    path('create/',
-         views.ModuleCreateView.as_view(), name='module_create'),
-    path('edit/<int:pk>/',
-         views.ModuleUpdateView.as_view(), name='module_edit'),
-    path('delete/<int:pk>/',
-         views.ModuleDeleteView.as_view(), name='module_delete'),
-    path('<slug:slug>/',
-         views.ModuleDetailView.as_view(), name='module_detail'),
+    path('dashboard/', manage_module_list_view, name='manage_list'),
+    path('all/', module_list_view, name='list'),
+    path('create/', module_create_view, name='create'),
+    path('edit/<int:pk>/', module_update_view, name='edit'),
+    path('delete/<int:pk>/', module_delete_view, name='delete'),
+    path('<slug:slug>/', module_detail_view, name='detail'),
 
     # Topics
-    path('<pk>/topic/',
-         views.ModuleTopicUpdateView.as_view(), name='module_topic_update'),
+    path('topic/<int:pk>/edit/', topic_update_view, name='topic_update'),
 
     # Resources
-    path('topic/<int:topic_id>/',
-         views.TopicResourceListView.as_view(), name='topic_resource_list'),
-
+    path('topic/<int:topic_id>/', resource_list_view, name='resource_list'),
     path('topic/<int:topic_id>/resource/<model_name>/create/',
-         views.ResourceCreateUpdateView.as_view(), name='topic_resource_create'),
-
+         resource_create_view, name='resource_create'),
     path('topic/<int:topic_id>/resource/<model_name>/<id>/',
-         views.ResourceCreateUpdateView.as_view(), name='topic_resource_update'),
-
-    path('resource/<int:id>/delete/',
-         views.ResourceDeleteView.as_view(), name='topic_resource_delete'),
+         resource_create_view, name='resource_update'),
+    path('resource/<int:id>/delete/', resource_delete_view,
+         name='resource_delete'),
 ]

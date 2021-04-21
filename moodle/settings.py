@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'taggit',
     'crispy_forms',
     'tinymce',
-    # 'django-autoslug',
+    'embed_video',
+    # 'django_autoslug',
     # 'django_extensions',
 ]
 
@@ -98,7 +99,7 @@ WSGI_APPLICATION = 'moodle.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -140,12 +141,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-LOGIN_REDIRECT_URL = reverse_lazy('student_module_list')
+LOGIN_REDIRECT_URL = reverse_lazy('modules:list')
 LOGOUT_REDIRECT_URL = 'home'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

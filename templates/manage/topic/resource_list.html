@@ -8,35 +8,62 @@
 {% block content %}
 
 
-    <div class="topic">
+<div class="topic">
+
+
+
+  <div class="card mb-3">
+    <div class="card-header bg-transparent">
       <h2>{{ topic.title }}</h2>
-      <h3>Topic contents:</h3>
-      {{ topic.description|safe }}
-      <br>
-      <h3 class="m-3">Resources:</h3>
+      <a href="{% url 'modules:detail' topic.module.slug %}" class="text-secondary">
+        <i class="far fa-arrow-alt-circle-right"></i> {{topic.module}}
+      </a>
+    </div>
+
+    <div class="card-body">
+      <h3 class="card-title">Topic contents:</h3>
+      <p class="card-text">
+        {{ topic.description|safe }}
+        <br>
+      <h3>Resources:</h3>
       <div id="topic-resources">
         {% for resource in topic.resources.all %}
-          <div data-id="{{ resource.id }}">
-            {% with item=resource.item %}
-              <p>{{ item }} ({{ item|model_name }})</p>
-              <a href="{% url 'topic_resource_update' topic.id item|model_name item.id %}">Edit</a>
-              <form action="{% url 'topic_resource_delete' resource.id %}" method="post">
-                <input type="submit" class="btn btn-danger" value="Delete">
-                {% csrf_token %}
-              </form>
-            {% endwith %}
+        <div data-id="{{ resource.id }}">
+          {% with item=resource.item %}
+          <p>{{ item }} ({{ item|model_name }})</p>
+          {{ item.render }}
+          <div class="manage-content">
+            <a href="{% url 'modules:resource_update' topic.id item|model_name item.id %}" class="btn btn-info">Edit</a>
+            <form action="{% url 'modules:resource_delete' resource.id %}" method="post">
+              <input type="submit" class="btn btn-danger" value="Delete">
+              {% csrf_token %}
+            </form>
           </div>
+          {% endwith %}
+        </div>
+        {% for resource in topic.resources.all %}
+        {% with item=content.item %}
+        {{item.title}}
+        {{item.render}}
+        {% endwith %}
+        {% endfor %}
         {% empty %}
-          <p>This topic has no resources yet.</p>
+        <p>This topic has no resources yet.</p>
         {% endfor %}
       </div>
-      <h3>Add new content:</h3>
-      <ul>
-        <a href="{% url 'topic_resource_create' topic.id 'video' %}">
-          <li class="btn btn-outline-secondary">🎞️ Video (URL)</li></a>
-
-        <a href="{% url 'topic_resource_create' topic.id 'file' %}">
-          <li class="btn btn-outline-secondary">📂 File</li></a>
-      </ul>
+      </p>
     </div>
+    <div class="card-footer bg-transparent">
+      <h3>Add new content:</h3>
+      <a href="{% url 'modules:resource_create' topic.id 'file' %}" class="btn btn-outline-secondary">📂 Upload
+        File</a>
+      <a href="{% url 'modules:resource_create' topic.id 'video' %}" class="btn btn-outline-secondary">🎞️ Embed Video
+        (URL)</a>
+      </li>
+    </div>
+  </div>
+
+
+
+</div>
 {% endblock %}

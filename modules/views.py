@@ -8,28 +8,31 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateResponseMixin, View
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse_lazy
 
 from .models import Module, Topic, Resource
-from .mixins import InstructorMixin, InstructorEditMixin, InstructorModuleMixin, InstructorModuleEditMixin
+from .mixins import InstructorEditMixin
 
 from students.forms import ModuleEnrollForm
-"""
-A Django view is just a Python function that 
-breceives a web request and returns a web response. 
-We'll be using Mixins for our Class Based Views
-"""
+
+
+# A Django view is just a Python function that
+# receives a web request and returns a web response.
+# We'll be using Mixins for our Class Based Views
 
 ########################
 ###      MODULE       ##
 ########################
 
 
-class ManageModuleListView(InstructorModuleMixin, ListView):
+class ManageModuleListView(InstructorEditMixin, ListView):
     """
     A view for Instructors to manage Modules created by them
     """
     template_name = 'manage/module/list.html'
-    context_object_name = 'module'
+
+
+manage_module_list_view = ManageModuleListView.as_view()
 
 
 class ModuleListView(TemplateResponseMixin, View):
@@ -48,6 +51,17 @@ class ModuleListView(TemplateResponseMixin, View):
         modules = Module.objects.annotate(total_topics=Count('topics'))
         return self.render_to_response({'modules': modules})
 
+    def get_queryset(self):
+        """Search functionality."""
+        qs = super().get_queryset()
+        q = self.request.GET.get('q')
+        if q:
+            return qs.filter(title__icontains=q)
+        return qs
+
+
+module_list_view = ModuleListView.as_view()
+
 
 class ModuleDetailView(DetailView):
     """
@@ -56,7 +70,6 @@ class ModuleDetailView(DetailView):
     """
     model = Module
     template_name = 'module/detail.html'
-    context_object_name = 'module'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -68,19 +81,33 @@ class ModuleDetailView(DetailView):
         return context
 
 
-class ModuleCreateView(SuccessMessageMixin, InstructorModuleEditMixin, CreateView):
+module_detail_view = ModuleDetailView.as_view()
+
+
+class ModuleCreateView(SuccessMessageMixin, InstructorEditMixin, CreateView):
     # template_name = 'manage/module/form.html'
     fields = ['code', 'title', 'level', 'overview']
-    success_message = "%(title)s was created successully."
+    success_msg = "Module was created successully."
 
 
-class ModuleUpdateView(InstructorModuleEditMixin, UpdateView):
-    pass
+module_create_view = ModuleCreateView.as_view()
 
 
-class ModuleDeleteView(InstructorModuleMixin, DeleteView):
+class ModuleUpdateView(InstructorEditMixin, UpdateView):
+    success_msg = "Module was updated successully."
+
+
+module_update_view = ModuleUpdateView.as_view()
+
+
+class ModuleDeleteView(InstructorEditMixin, DeleteView):
     template_name = 'manage/module/delete.html'
     context_object_name = 'module'
+    success_msg = "Module was deleted successully."
+    success_url = reverse_lazy("modules:manage_list")
+
+
+module_delete_view = ModuleDeleteView.as_view()
 
 
 ########################
@@ -88,7 +115,7 @@ class ModuleDeleteView(InstructorModuleMixin, DeleteView):
 ########################
 
 
-class ModuleTopicUpdateView(TemplateResponseMixin, View):
+class TopicUpdateView(TemplateResponseMixin, View):
     """
           1. Build a ModuleFormSet instance using POST data.
           2. Validate the forms.
@@ -120,19 +147,21 @@ class ModuleTopicUpdateView(TemplateResponseMixin, View):
         formset = self.get_formset(data=request.POST)
         if formset.is_valid():
             formset.save()
-            return redirect('module_list')
+            return redirect('modules:list')
         context = {'module': self.module, 'formset': formset}
         # <render_to_response> is provided by TemplateResponseMixin
         return self.render_to_response(context)
 
 
+topic_update_view = TopicUpdateView.as_view()
+
 ########################
 ###     RESOURCE      ##
 ########################
 
-class TopicResourceListView(TemplateResponseMixin, View):
+
+class ResourceListView(TemplateResponseMixin, View):
     template_name = 'manage/topic/resource_list.html'
-    context_object_name = 'topics'
 
     def get(self, request, topic_id):
         topic = get_object_or_404(
@@ -140,16 +169,18 @@ class TopicResourceListView(TemplateResponseMixin, View):
         return self.render_to_response({'topic': topic})
 
 
+resource_list_view = ResourceListView.as_view()
+
+
 class ResourceCreateUpdateView(TemplateResponseMixin, View):
     topic = None
     model = None
     obj = None
     template_name = 'manage/resource/form.html'
-    context_object_name = 'resource'
 
     def get_model(self, model_name):
-        """ Checks whether the model is valid file type and obtain the class for given model. """
-        if model_name in ['text', 'video', 'image', 'file']:
+        """Checks whether the model is valid file type and obtain the class for given model. """
+        if model_name in ['video', 'image', 'file']:
             return apps.get_model(app_label='modules', model_name=model_name)
         return None
 
@@ -199,9 +230,12 @@ class ResourceCreateUpdateView(TemplateResponseMixin, View):
             if not id:
                 # New Resource
                 Resource.objects.create(topic=self.topic, item=obj)
-            return redirect('topic_resource_list', self.topic.id)
+            return redirect('modules:resource_list', self.topic.id)
 
         return self.render_to_response(context)
+
+
+resource_create_view = ResourceCreateUpdateView.as_view()
 
 
 class ResourceDeleteView(View):
@@ -209,7 +243,6 @@ class ResourceDeleteView(View):
     def post(self, request, id):
         """
           Retrieves the Resource object with the given ID.
-
         """
         resource = get_object_or_404(
             Resource, id=id, topic__module__instructor=request.user)
@@ -218,4 +251,7 @@ class ResourceDeleteView(View):
         resource.item.delete()
         # Deletes the Resource object
         resource.delete()
-        return redirect('topic_resource_list', topic.id)
+        return redirect('modules:resource_list', topic.id)
+
+
+resource_delete_view = ResourceDeleteView.as_view()
