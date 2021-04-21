@@ -31,7 +31,15 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('students/', include('students.urls')),
+<<<<<<< HEAD
     path('modules/', include('modules.urls')),
+=======
+<<<<<<< HEAD
+    path('modules/', include('modules.urls')),
+=======
+    path('module/', include('modules.urls')),
+>>>>>>> parent of e97beda (Forum App)
+>>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
 ]
 
 if settings.DEBUG:

@@ -3,9 +3,13 @@
 {% block title %}My modules{% endblock %}
 
 {% block content %}
+<<<<<<< HEAD
 <h1 class="mb-2" style="display: inline;">My modules</h1> <a href="{% url 'modules:create' %}"><i
     class="fas fa-plus-square"></i></a>
 <br>
+=======
+<h1 class="mb-2">My modules</h1>
+>>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
 <a href="{% url 'modules:list' %}"><span class="text-info">View as Student</span></a>
 {% for module in object_list %}
 <div class="card mt-3 mb-3">

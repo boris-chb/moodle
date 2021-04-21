@@ -4,6 +4,10 @@
     {% if user.is_authenticated %}
     <ul class="navbar-nav">
         <!-- Dropdown -->
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">
                 My Modules
@@ -29,12 +33,16 @@
             <a class="nav-link" href="">About</a>
         </li>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
         <!-- Social Buttons -->
         <li class="nav-item"><a class="nav-link" href=""><i class="fa fa-facebook mr-1"></i></a></li>
         <li class="nav-item"><a class="nav-link" href=""><i class="fa fa-twitter"></i></a> </li>
 
     </ul>
+<<<<<<< HEAD
 
     <!-- RIGHT SIDE OF NAVBAR -->
     <ul class="navbar-nav ml-auto">
@@ -43,12 +51,19 @@
             {% include "module/_module_search.html" %}
         </li>
 
+=======
+    <ul class="navbar-nav ml-auto">
+
+>>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                 {{ user.username }}
             </a>
             <div class="dropdown-menu">
+<<<<<<< HEAD
                 <a href="" class="dropdown-item">Profile</a>
+=======
+>>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
                 <a class="dropdown-item" href="{% url 'password_change'%}">Change password</a>
             </div>
         </li>
@@ -57,7 +72,10 @@
             <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
         </li>
     </ul>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
     {% else %}
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
