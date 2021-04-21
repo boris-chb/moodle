@@ -31,9 +31,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('students/', include('students.urls')),
-    path('modules/', include('modules.urls')),
-    path('modules/', include('modules.urls')),
-]
+    path('modules/', include('modules.urls')), ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,
