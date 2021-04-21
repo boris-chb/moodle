@@ -87,11 +87,7 @@ class ModuleDetailView(DetailView):
 module_detail_view = ModuleDetailView.as_view()
 
 
-<<<<<<< HEAD
 class ModuleCreateView(SuccessMessageMixin, InstructorEditMixin, CreateView):
-=======
-class ModuleCreateView(SuccessMessageMixin, InstructorModuleEditMixin, CreateView):
->>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
     # template_name = 'manage/module/form.html'
     fields = ['code', 'title', 'level', 'overview']
     success_msg = "Module was created successully."
@@ -100,32 +96,17 @@ class ModuleCreateView(SuccessMessageMixin, InstructorModuleEditMixin, CreateVie
 module_create_view = ModuleCreateView.as_view()
 
 
-<<<<<<< HEAD
 class ModuleUpdateView(InstructorEditMixin, UpdateView):
     success_msg = "Module was updated successully."
-=======
-module_create_view = ModuleCreateView.as_view()
-
-
-class ModuleUpdateView(InstructorModuleEditMixin, UpdateView):
-    pass
->>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
 
 
 module_update_view = ModuleUpdateView.as_view()
 
 
-<<<<<<< HEAD
 class ModuleDeleteView(InstructorEditMixin, DeleteView):
     template_name = 'manage/module/delete.html'
     context_object_name = 'module'
     success_msg = "Module was deleted successully."
-=======
-class ModuleDeleteView(InstructorModuleMixin, DeleteView):
-    template_name = 'manage/module/delete.html'
-    context_object_name = 'module'
-    success_message = "%(title)s was deleted successully."
->>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
     success_url = reverse_lazy("modules:manage_list")
 
 
@@ -252,11 +233,7 @@ class ResourceCreateUpdateView(TemplateResponseMixin, View):
             if not id:
                 # New Resource
                 Resource.objects.create(topic=self.topic, item=obj)
-<<<<<<< HEAD
             return redirect('modules:resource_list', self.topic.id)
-=======
-            return redirect('modules:resource_list_view', self.topic.id)
->>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
 
         return self.render_to_response(context)
 
@@ -277,11 +254,7 @@ class ResourceDeleteView(View):
         resource.item.delete()
         # Deletes the Resource object
         resource.delete()
-<<<<<<< HEAD
         return redirect('modules:resource_list', topic.id)
-=======
-        return redirect('modules:resource_list_view', topic.id)
->>>>>>> 7305a80f7f143fcaaa6765bd1292ddb068bcd3aa
 
 
 resource_delete_view = ResourceDeleteView.as_view()
