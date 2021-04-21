@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'tinymce',
     'embed_video',
+    'factory',
+    'django_extensions',
     # 'django_autoslug',
     # 'django_extensions',
 ]

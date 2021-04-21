@@ -13,18 +13,18 @@ from tinymce import models as tinymce_models
 from autoslug import AutoSlugField
 
 
-LEVEL_CHOICES = [
-    ('U', 'Undergraduate'),
-    ('PG', 'Postraduate'),
-    ('P', 'PhD'),
-    ('PT', 'Part-Time'),
-]
-
-
 class Module(models.Model):
     """
         A module contains topics that, in turn, contain many resources (files).
     """
+
+    LEVEL_CHOICES = [
+        ('U', 'Undergraduate'),
+        ('PG', 'Postraduate'),
+        ('P', 'PhD'),
+        ('PT', 'Part-Time'),
+    ]
+
     code = models.CharField(max_length=15, unique=True)
     instructor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    related_name='modules_created',
