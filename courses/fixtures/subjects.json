@@ -1,0 +1,82 @@
+[
+  {
+    "model": "courses.subject",
+    "pk": 1,
+    "fields": {
+      "title": "Discrete Mathematics",
+      "slug": "discrete-mathematics"
+    }
+  },
+  {
+    "model": "courses.subject",
+    "pk": 2,
+    "fields": {
+      "title": "Software Development",
+      "slug": "software-development"
+    }
+  },
+  {
+    "model": "courses.subject",
+    "pk": 3,
+    "fields": {
+      "title": "Computer Architecture",
+      "slug": "computer-architecture"
+    }
+  },
+  {
+    "model": "courses.subject",
+    "pk": 4,
+    "fields": {
+      "title": "Data Structures",
+      "slug": "data-structures"
+    }
+  },
+  {
+    "model": "courses.subject",
+    "pk": 5,
+    "fields": {
+      "title": "Algorithms",
+      "slug": "algorithms"
+    }
+  },
+  {
+    "model": "courses.subject",
+    "pk": 6,
+    "fields": {
+      "title": "Web Development",
+      "slug": "web-development"
+    }
+  },
+  {
+    "model": "courses.subject",
+    "pk": 7,
+    "fields": {
+      "title": "Database Management",
+      "slug": "database-management"
+    }
+  },
+  {
+    "model": "courses.subject",
+    "pk": 8,
+    "fields": {
+      "title": "Operating Systems",
+      "slug": "operating-systems"
+    }
+  },
+  {
+    "model": "courses.subject",
+    "pk": 9,
+    "fields": {
+      "title": "Networking",
+      "slug": "networking"
+    }
+  },
+  {
+    "model": "courses.subject",
+    "pk": 10,
+    "fields": {
+      "title": "Cybersecurity",
+      "slug": "cybersecurity"
+    }
+  }
+]
