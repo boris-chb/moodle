@@ -3,10 +3,15 @@ from django.contrib import admin
 from courses.models import Course, Module, Subject
 
 
+class CourseInline(admin.StackedInline):
+    model = Course
+
+
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
     list_display = ["title", "slug"]
     prepopulated_fields = {"slug": ("title",)}
+    inlines = [CourseInline]
 
 
 class ModuleInline(admin.StackedInline):

@@ -22,3 +22,4 @@ media/
 
 # Ignore environment variables file (if used)
 .env
+.DS_Store
